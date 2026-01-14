@@ -8,8 +8,8 @@ djangorestframework-simplejwt
 django-cors-headers
 
 # MySQL - Primary Database
+# MySQL - Primary Database
 PyMySQL
-psycopg2-binary
 
 # Authentication & Security
 django-otp
@@ -28,7 +28,7 @@ paypalrestsdk
 python-decouple
 dj-database-url
 requests
-Pillow
+Pillow==10.2.0
 python-slugify
 python-dateutil
 
