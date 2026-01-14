@@ -6,7 +6,7 @@ import axios from 'axios';
  * et la gestion des erreurs globales (ex: redirection si token expiré).
  */
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://cyprusforchrist-production.up.railway.app/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api',
     headers: {
         'Content-Type': 'application/json',
     },

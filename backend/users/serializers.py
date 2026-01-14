@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
+
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,6 +26,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'username': {'required': False},
         }
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Cette adresse email est déjà utilisée.")
+        return value
 
     def validate(self, attrs):
         if not attrs.get('username'):
@@ -104,12 +111,10 @@ class CreatePastorSerializer(serializers.ModelSerializer):
         return getattr(obj, 'generated_password', None)
     
     def create(self, validated_data):
-        import secrets
-        import string
         
         # Générer un mot de passe aléatoire sécurisé (mélange de lettres et chiffres, évite les symboles ambigus)
         alphabet = string.ascii_letters + string.digits
-        password = ''.join(secrets.choice(alphabet) for i in range(12))
+        password = ''.join(secrets.choice(alphabet) for _ in range(12))
         
         user = User.objects.create_user(
             username=validated_data['username'],
@@ -133,6 +138,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     confirm_password = serializers.CharField(required=True)
 
     def validate(self, attrs):
+        if attrs['old_password'] == attrs['new_password']:
+            raise serializers.ValidationError({"new_password": "Le nouveau mot de passe doit être différent de l'ancien."})
         if attrs['new_password'] != attrs['confirm_password']:
             raise serializers.ValidationError({"confirm_password": "Les nouveaux mots de passe ne correspondent pas."})
         return attrs

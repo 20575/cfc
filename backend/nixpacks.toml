@@ -1,8 +1,0 @@
-[phases.setup]
-nixPkgs = ["python311", "gcc", "zlib", "libjpeg", "libffi", "openssl"]
-
-[phases.install]
-cmds = ["python -m pip install -r requirements.txt"]
-
-[start]
-cmd = "gunicorn cyprus_api.wsgi --log-file -"

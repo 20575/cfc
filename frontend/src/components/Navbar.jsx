@@ -99,7 +99,7 @@ const Navbar = () => {
                         ) : (
                             <div className="flex items-center space-x-6 ml-4 border-l pl-6 border-gray-300">
                                 <Link
-                                    to={user?.role === 'PASTOR' ? '/pastor-dashboard' : (user?.role === 'ADMIN' ? '/admin' : '/dashboard')}
+                                    to={user?.role === 'PASTOR' ? '/pastor' : (user?.role === 'ADMIN' ? '/admin' : '/member')}
                                     className={`font-bold text-sm uppercase flex items-center gap-2 ${scrolled ? 'text-gray-800 hover:text-compassion-purple' : 'text-white hover:text-gray-300'}`}
                                 >
                                     <span className="w-8 h-8 rounded-full bg-gold flex items-center justify-center text-white text-xs">
@@ -174,7 +174,7 @@ const Navbar = () => {
                         ) : (
                             <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
                                 <Link
-                                    to="/profile"
+                                    to={user?.role === 'PASTOR' ? '/pastor' : (user?.role === 'ADMIN' ? '/admin' : '/member')}
                                     className="text-gray-800 font-bold text-lg uppercase py-2 flex items-center gap-3"
                                     onClick={() => setIsOpen(false)}
                                 >

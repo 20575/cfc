@@ -193,6 +193,8 @@ class PasswordResetConfirmView(views.APIView):
             user = None
 
         if user is not None and default_token_generator.check_token(user, token):
+            if user.check_password(new_password):
+                return Response({"error": "Vous ne pouvez pas réutiliser votre ancien mot de passe."}, status=status.HTTP_400_BAD_REQUEST)
             user.set_password(new_password)
             user.save()
             return Response({"message": "Le mot de passe a été réinitialisé avec succès."}, status=status.HTTP_200_OK)

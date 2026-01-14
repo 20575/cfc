@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from users.serializers import UserSerializer
 from django.db.models import Q
 
+
+
 User = get_user_model()
 
 class AdminUserViewSet(viewsets.ModelViewSet):
@@ -86,3 +88,26 @@ class AdminUserViewSet(viewsets.ModelViewSet):
             'message': f'User {"activated" if user.is_active else "deactivated"} successfully',
             'user': UserSerializer(user).data
         })
+    @action(detail=False, methods=['post'])
+    def create_pastor(self, request):
+        """Create a new pastor"""
+        
+        data = request.data.copy()
+        data['role'] = 'PASTOR'
+        data['username'] = data.get('email') # Use email as username default
+        
+        # Generate random password
+        alphabet = string.ascii_letters + string.digits + "!@#$%^&*"
+        password = ''.join(secrets.choice(alphabet) for _ in range(12))
+        data['password'] = password
+        
+        serializer = self.get_serializer(data=data)
+        if serializer.is_valid():
+            user = serializer.save()
+            
+            # Return user data with generated password
+            response_data = serializer.data
+            response_data['generated_password'] = password
+            
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

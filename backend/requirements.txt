@@ -26,9 +26,9 @@ paypalrestsdk
 
 # Utilities
 python-decouple
-dj-database-url
+dj-database-url<3.0
 requests
-Pillow==10.2.0
+Pillow
 python-slugify
 python-dateutil
 
@@ -40,5 +40,5 @@ pypdf2
 drf-yasg
 
 # Production
-gunicorn==21.2.0
-uvicorn==0.27.1
+gunicorn
+uvicorn

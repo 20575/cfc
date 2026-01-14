@@ -19,6 +19,7 @@ const Register = () => {
     const { t } = useLanguage()
     const [step, setStep] = useState(1)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [generalError, setGeneralError] = useState(null)
     const navigate = useNavigate()
     const { register: registerUser, isAuthenticated, user, loading: authLoading } = useAuth()
 
@@ -37,6 +38,7 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         setIsSubmitting(true)
+        setGeneralError(null)
 
         try {
             // Intégration avec AuthContext
@@ -63,18 +65,19 @@ const Register = () => {
                 const userData = await profileResponse.json();
 
                 // Redirect based on user role
-                if (userData.role === 'ADMIN' || userData.role === 'PASTOR') {
-                    window.location.href = '/admin';
+                if (userData.role === 'ADMIN') {
+                    navigate('/admin');
+                } else if (userData.role === 'PASTOR') {
+                    navigate('/pastor');
                 } else {
-                    window.location.href = '/profile';
+                    navigate('/member');
                 }
             } else {
-                window.location.href = '/profile';
+                navigate('/member');
             }
-            window.location.reload()
         } catch (error) {
             console.error('Registration error:', error)
-            alert(error.message || t('auth.register.validation.error_generic'))
+            setGeneralError(error.message || t('auth.register.validation.error_generic'))
         } finally {
             setIsSubmitting(false)
         }
@@ -199,6 +202,23 @@ const Register = () => {
                                     {t('auth.register.subtitle')}
                                 </p>
                             </div>
+
+
+
+                            {generalError && (
+                                <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r shadow-sm">
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm text-red-700">{generalError}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 {/* Step 1: Personal Information */}
@@ -450,17 +470,17 @@ const Register = () => {
                         </div>
                     </div>
                 </div>
-            </motion.div>
+            </motion.div >
 
             {/* Floating Home Button */}
-            <Link
+            < Link
                 to="/"
                 className="fixed top-8 left-8 flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-md text-bordeaux rounded-full shadow-xl border border-white/50 hover:bg-white hover:scale-105 transition-all font-bold group z-50 md:flex hidden"
             >
                 <FaArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 <span>Retour au Site</span>
-            </Link>
-        </div>
+            </Link >
+        </div >
     )
 }
 
