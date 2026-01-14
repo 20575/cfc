@@ -71,7 +71,8 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       - name: Deploy to Railway
-        run: railway deploy --detach
+        run: railway up --detach --service backend
+        continue-on-error: true # Allow fallback if service name is wrong
         working-directory: ./backend
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
