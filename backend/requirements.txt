@@ -40,5 +40,5 @@ pypdf2
 drf-yasg
 
 # Production
-gunicorn
-uvicorn
+gunicorn==21.2.0
+uvicorn==0.27.1
