@@ -25,7 +25,8 @@ const ResetPassword = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/password-reset-confirm/', {
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+            const response = await axios.post(`${baseUrl}/auth/password-reset-confirm/`, {
                 uid,
                 token,
                 new_password: newPassword
