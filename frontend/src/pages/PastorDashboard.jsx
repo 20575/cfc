@@ -57,13 +57,14 @@ const PastorDashboard = () => {
             const token = localStorage.getItem('access_token');
             const headers = { 'Authorization': `Bearer ${token}` };
 
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
             const [prayersRes, sermonsRes, donationsRes, rhemasRes, availabilitiesRes, appointmentsRes] = await Promise.all([
-                fetch('http://127.0.0.1:8000/api/prayers/', { headers }),
-                fetch('http://127.0.0.1:8000/api/sermons/', { headers }),
-                fetch('http://127.0.0.1:8000/api/donations/', { headers }),
-                fetch('http://127.0.0.1:8000/api/rhema/', { headers }),
-                fetch('http://127.0.0.1:8000/api/appointments/availabilities/', { headers }),
-                fetch('http://127.0.0.1:8000/api/appointments/', { headers })
+                fetch(`${baseUrl}/prayers/`, { headers }),
+                fetch(`${baseUrl}/sermons/`, { headers }),
+                fetch(`${baseUrl}/donations/`, { headers }),
+                fetch(`${baseUrl}/rhema/`, { headers }),
+                fetch(`${baseUrl}/appointments/availabilities/`, { headers }),
+                fetch(`${baseUrl}/appointments/`, { headers })
             ]);
 
             const [pData, sData, dData, rData, vData, aData] = await Promise.all([
@@ -106,7 +107,8 @@ const PastorDashboard = () => {
 
         try {
             const token = localStorage.getItem('access_token');
-            const response = await fetch(`http://127.0.0.1:8000/api/${endpoint}`, {
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+            const response = await fetch(`${baseUrl}/${endpoint}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,7 +135,8 @@ const PastorDashboard = () => {
 
         try {
             const token = localStorage.getItem('access_token');
-            const response = await fetch(`http://127.0.0.1:8000/api/${endpoint}`, {
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+            const response = await fetch(`${baseUrl}/${endpoint}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -148,9 +151,10 @@ const PastorDashboard = () => {
 
     const handleSaveSermon = async (formData) => {
         const token = localStorage.getItem('access_token');
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
         const url = editingItem
-            ? `http://127.0.0.1:8000/api/sermons/${editingItem.id}/`
-            : 'http://127.0.0.1:8000/api/sermons/';
+            ? `${baseUrl}/sermons/${editingItem.id}/`
+            : `${baseUrl}/sermons/`;
 
         // Client-side quick check for image
         const coverFile = formData.get('cover_image');
@@ -195,9 +199,10 @@ const PastorDashboard = () => {
 
     const handleSaveRhema = async (data) => {
         const token = localStorage.getItem('access_token');
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
         const url = editingItem
-            ? `http://127.0.0.1:8000/api/rhema/${editingItem.id}/`
-            : 'http://127.0.0.1:8000/api/rhema/';
+            ? `${baseUrl}/rhema/${editingItem.id}/`
+            : `${baseUrl}/rhema/`;
 
         try {
             const response = await fetch(url, {
@@ -226,9 +231,10 @@ const PastorDashboard = () => {
 
     const handleSaveAvailability = async (data) => {
         const token = localStorage.getItem('access_token');
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
         const url = editingItem
-            ? `http://127.0.0.1:8000/api/appointments/availabilities/${editingItem.id}/`
-            : 'http://127.0.0.1:8000/api/appointments/availabilities/';
+            ? `${baseUrl}/appointments/availabilities/${editingItem.id}/`
+            : `${baseUrl}/appointments/availabilities/`;
 
         try {
             const response = await fetch(url, {

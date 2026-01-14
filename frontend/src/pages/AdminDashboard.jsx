@@ -54,10 +54,11 @@ const AdminDashboard = () => {
             const token = localStorage.getItem('access_token')
             const headers = { 'Authorization': `Bearer ${token}` }
 
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
             const [statsRes, chartsRes, activityRes] = await Promise.all([
-                fetch('http://127.0.0.1:8000/api/dashboard/stats/', { headers }),
-                fetch('http://127.0.0.1:8000/api/dashboard/charts/', { headers }),
-                fetch('http://127.0.0.1:8000/api/dashboard/activity/', { headers })
+                fetch(`${baseUrl}/dashboard/stats/`, { headers }),
+                fetch(`${baseUrl}/dashboard/charts/`, { headers }),
+                fetch(`${baseUrl}/dashboard/activity/`, { headers })
             ])
 
             if (statsRes.ok) setStats(await statsRes.json())

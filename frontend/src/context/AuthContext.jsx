@@ -16,8 +16,9 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('access_token')
         if (token) {
             try {
+                const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
                 // Verify token with backend
-                const response = await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+                const response = await fetch(`${baseUrl}/auth/profile/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -44,7 +45,8 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             // Connect to backend JWT login API
-            const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+            const response = await fetch(`${baseUrl}/auth/login/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +65,8 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('refresh_token', data.refresh)
 
                 // Fetch user profile
-                const profileResponse = await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+                const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+                const profileResponse = await fetch(`${baseUrl}/auth/profile/`, {
                     headers: {
                         'Authorization': `Bearer ${data.access}`,
                     },
@@ -86,7 +89,8 @@ export const AuthProvider = ({ children }) => {
     const register = async (data) => {
         try {
             // Connect to backend registration API
-            const response = await fetch('http://127.0.0.1:8000/api/auth/register/', {
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+            const response = await fetch(`${baseUrl}/auth/register/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +107,8 @@ export const AuthProvider = ({ children }) => {
                     localStorage.setItem('refresh_token', result.refresh)
 
                     // Fetch user profile
-                    const profileResponse = await fetch('http://127.0.0.1:8000/api/auth/profile/', {
+                    const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+                    const profileResponse = await fetch(`${baseUrl}/auth/profile/`, {
                         headers: {
                             'Authorization': `Bearer ${result.access}`,
                         },
