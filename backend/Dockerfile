@@ -1,5 +1,5 @@
 # Cyprus For Christ - Backend Production Dockerfile
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 # Prevent Python from writing .pyc files and set buffer mode
 ENV PYTHONDONTWRITEBYTECODE 1
