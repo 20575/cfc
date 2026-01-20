@@ -69,7 +69,8 @@ const EventsManagement = () => {
             alert(editingEvent ? 'Événement modifié !' : 'Événement ajouté !')
         } catch (error) {
             console.error('Error saving event:', error)
-            alert('Erreur lors de la sauvegarde')
+            const errorMsg = error.response?.data?.detail || error.response?.data?.message || 'Erreur lors de la sauvegarde. Vérifiez les champs.';
+            alert(errorMsg)
         }
     }
 

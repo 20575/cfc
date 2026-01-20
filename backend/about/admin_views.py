@@ -1,9 +1,11 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Event, GalleryItem
 from .serializers import EventSerializer, GalleryItemSerializer
 from django.db.models import Q
+from users.permissions import IsPastorOrAdmin
 
 class AdminEventViewSet(viewsets.ModelViewSet):
     """
@@ -11,7 +13,8 @@ class AdminEventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all().order_by('-is_pinned', '-date')
     serializer_class = EventSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsPastorOrAdmin]
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -39,7 +42,8 @@ class AdminGalleryViewSet(viewsets.ModelViewSet):
     """
     queryset = GalleryItem.objects.all().order_by('-created_at')
     serializer_class = GalleryItemSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsPastorOrAdmin]
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         queryset = super().get_queryset()
