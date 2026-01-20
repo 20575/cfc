@@ -59,27 +59,32 @@ const Footer = () => {
                     <div>
                         <h4 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-8">{t('footer.contact')}</h4>
                         <ul className="space-y-6">
-                            <li className="flex items-start space-x-4 group">
+                            <a
+                                href="https://www.google.com/maps/dir/?api=1&destination=Turgut+Hasan+Sokak+No:2+Kucuk+Kaymakli+Lefkosa+TEB+Bankasi+Karsisi"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-start space-x-4 group cursor-pointer"
+                            >
                                 <div className="p-3 rounded-full bg-gray-900 group-hover:bg-gold transition-colors text-white">
                                     <FaMapMarkerAlt />
                                 </div>
-                                <span className="text-gray-300 leading-relaxed">
-                                    Turgut hasan sokak no 2, kucuk kaymakli<br />
-                                    lefkosa, Chypre du Nord
+                                <span className="text-gray-300 leading-relaxed group-hover:text-white transition-colors uppercase">
+                                    TURGUT HASAN SOKAK NO:2, KUCUK KAYMAKLI<br />
+                                    LEFKOSA (TEB BANKASI KARSISI)
                                 </span>
-                            </li>
-                            <li className="flex items-center space-x-4 group">
+                            </a>
+                            <a href="tel:+905338748646" className="flex items-center space-x-4 group cursor-pointer">
                                 <div className="p-3 rounded-full bg-gray-900 group-hover:bg-gold transition-colors text-white">
                                     <FaPhone />
                                 </div>
-                                <span className="text-gray-300">+90 533 874 86 46</span>
-                            </li>
-                            <li className="flex items-center space-x-4 group">
+                                <span className="text-gray-300 group-hover:text-white transition-colors tracking-wider font-medium">+90 533 874 86 46</span>
+                            </a>
+                            <a href="mailto:contact@cyprusforchrist.com" className="flex items-center space-x-4 group cursor-pointer">
                                 <div className="p-3 rounded-full bg-gray-900 group-hover:bg-gold transition-colors text-white">
                                     <FaEnvelope />
                                 </div>
-                                <span className="text-gray-300">contact@cyprusforchrist.com</span>
-                            </li>
+                                <span className="text-gray-300 group-hover:text-white transition-colors font-medium">contact@cyprusforchrist.com</span>
+                            </a>
                         </ul>
                     </div>
 

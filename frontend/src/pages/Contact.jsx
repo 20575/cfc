@@ -161,8 +161,9 @@ const Contact = () => {
                                 <div className="text-center">
                                     <FaMapMarkerAlt className="h-12 w-12 text-gold mb-4 mx-auto" />
                                     <h3 className="font-bold text-bordeaux mb-2">Cyprus For Christ</h3>
-                                    <p className="text-gray-600">Kucuk Kaymakli, Lefkosa</p>
-                                    <p className="text-gray-600 text-sm">Chypre du Nord</p>
+                                    <p className="text-gray-600">TURGUT HASAN SOKAK NO:2</p>
+                                    <p className="text-gray-600">KUCUK KAYMAKLI - LEFKOSA</p>
+                                    <p className="text-gray-600 text-sm font-semibold text-gold">TEB BANKASI KARSISI</p>
                                 </div>
                             </div>
                             <div className="p-6">
@@ -171,10 +172,15 @@ const Contact = () => {
                                         <h4 className="font-bold text-bordeaux mb-1">{t('contact.info.directions')}</h4>
                                         <p className="text-sm text-gray-600">{t('contact.info.plan_route')}</p>
                                     </div>
-                                    <button className="flex items-center text-gold hover:text-bordeaux transition-colors">
+                                    <a
+                                        href="https://www.google.com/maps/dir/?api=1&destination=Turgut+Hasan+Sokak+No:2+Kucuk+Kaymakli+Lefkosa+TEB+Bankasi+Karsisi"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center text-gold hover:text-bordeaux transition-colors font-semibold"
+                                    >
                                         <FaCar className="mr-2" />
                                         {t('contact.info.get_there')}
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </motion.div>
