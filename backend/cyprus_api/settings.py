@@ -285,7 +285,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config(
     'DEFAULT_FROM_EMAIL',
-    default='Cyprus For Christ <noreply@cyprusforchrist.org>'
+    default='Cyprus For Christ <cyprusforchrist@gmail.com>'
 )
 
 # File Upload Configuration
@@ -301,7 +301,7 @@ ALLOWED_IMAGE_EXTENSIONS = config(
 CHURCH_INFO = {
     'name': config('CHURCH_NAME', default='Cyprus For Christ'),
     'address': config('CHURCH_ADDRESS', default='Adresse de l\'église, Chypre'),
-    'email': config('CHURCH_EMAIL', default='contact@cyprusforchrist.org'),
+    'email': config('CHURCH_EMAIL', default='cyprusforchrist@gmail.com'),
     'phone': config('CHURCH_PHONE', default=''),
     'website': config('CHURCH_WEBSITE', default='https://www.cyprusforchrist.org'),
 }

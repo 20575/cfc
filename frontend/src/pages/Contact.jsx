@@ -61,7 +61,7 @@ const Contact = () => {
         {
             icon: FaEnvelope,
             title: t('contact.info.email'),
-            details: [contactData?.email || 'contact@cyprusforchrist.com'],
+            details: [contactData?.email || 'cyprusforchrist@gmail.com'],
             color: 'from-blue-500 to-cyan-500'
         },
         {

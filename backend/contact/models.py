@@ -20,7 +20,7 @@ class ContactRequest(models.Model):
 
 class ContactInfo(models.Model):
     phone = models.CharField(_('Téléphone'), max_length=50, default='+90 533 874 86 46')
-    email = models.EmailField(_('Email'), default='contact@cyprusforchrist.com')
+    email = models.EmailField(_('Email'), default='cyprusforchrist@gmail.com')
     address = models.TextField(_('Adresse'), default='Turgut hasan sokak no 2, Kucuk kaymakli, Lefkosa, Chypre du Nord')
     service_times_sunday = models.CharField(_('Service du Dimanche'), max_length=100, default='Dimanche: 17h15')
     service_times_wednesday = models.CharField(_('Service du Mercredi'), max_length=100, default='Mercredi: 17h15')

@@ -79,11 +79,11 @@ const Footer = () => {
                                 </div>
                                 <span className="text-gray-300 group-hover:text-white transition-colors tracking-wider font-medium">+90 533 874 86 46</span>
                             </a>
-                            <a href="mailto:contact@cyprusforchrist.com" className="flex items-center space-x-4 group cursor-pointer">
+                            <a href="mailto:cyprusforchrist@gmail.com" className="flex items-center space-x-4 group cursor-pointer">
                                 <div className="p-3 rounded-full bg-gray-900 group-hover:bg-gold transition-colors text-white">
                                     <FaEnvelope />
                                 </div>
-                                <span className="text-gray-300 group-hover:text-white transition-colors font-medium">contact@cyprusforchrist.com</span>
+                                <span className="text-gray-300 group-hover:text-white transition-colors font-medium">cyprusforchrist@gmail.com</span>
                             </a>
                         </ul>
                     </div>

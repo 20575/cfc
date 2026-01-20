@@ -28,8 +28,8 @@ schema_view = get_schema_view(
         - 📱 Contact WhatsApp
         - 📊 Dashboard pasteur/admin
         """,
-        terms_of_service="https://www.cyprusforchrist.org/terms/",
-        contact=openapi.Contact(email="contact@cyprusforchrist.org"),
+        terms_of_service="https://www.cyprusforchrist.com/terms/",
+        contact=openapi.Contact(email="cyprusforchrist@gmail.com"),
         license=openapi.License(name="Proprietary License"),
     ),
     public=True,
