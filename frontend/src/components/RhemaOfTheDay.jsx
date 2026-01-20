@@ -34,7 +34,7 @@ const RhemaOfTheDay = () => {
     }, []);
 
     return (
-        <section className="py-16 bg-gradient-to-r from-bordeaux to-royalBlue text-white">
+        <section className="py-16 bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 className="text-3xl font-playfair font-bold mb-8">
                     {verse.title || t('home.rhema.title')}

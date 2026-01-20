@@ -16,6 +16,7 @@ class PrayerRequest(models.Model):
         related_name='prayer_requests'
     )
     full_name = models.CharField(_('Nom complet'), max_length=255, blank=True)
+    email = models.EmailField(_('Email (optionnel)'), blank=True, null=True)
     title = models.CharField(_('Sujet de prière'), max_length=255)
     content = models.TextField(_('Contenu de la requête'))
     

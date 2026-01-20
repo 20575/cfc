@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { FaCalendarAlt, FaMapMarkerAlt, FaChevronLeft, FaChevronRight, FaClock } from 'react-icons/fa'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
@@ -170,14 +171,7 @@ const EventsCarousel = () => {
 
                                         <p className="text-gray-600 mb-6">{event.description}</p>
 
-                                        <div className="flex justify-between items-center">
-                                            <button className="text-gold font-semibold hover:text-bordeaux transition-colors">
-                                                Plus de détails →
-                                            </button>
-                                            <button className="bg-gradient-to-r from-gold to-lightGold text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-                                                S'inscrire
-                                            </button>
-                                        </div>
+
                                     </div>
                                 </motion.div>
                             </SwiperSlide>
@@ -200,10 +194,13 @@ const EventsCarousel = () => {
                     viewport={{ once: true }}
                     className="text-center mt-12"
                 >
-                    <button className="inline-flex items-center bg-gradient-to-r from-bordeaux to-purple-700 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <Link
+                        to="/events"
+                        className="inline-flex items-center bg-gradient-to-r from-bordeaux to-purple-700 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    >
                         <FaCalendarAlt className="mr-3" />
                         Voir tous les événements
-                    </button>
+                    </Link>
                 </motion.div>
             </div>
         </section>

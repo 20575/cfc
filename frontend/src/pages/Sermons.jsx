@@ -21,6 +21,10 @@ const Sermons = () => {
     const categories = [
         { id: 'Tous', label: t('sermons.filters.all') },
         { id: 'SUNDAY_SERVICE', label: t('sermons.filters.sunday') },
+        { id: 'PREACHING', label: t('sermons.filters.preaching') },
+        { id: 'TEACHING', label: t('sermons.filters.teaching') },
+        { id: 'EXHORTATION', label: t('sermons.filters.exhortation') },
+        { id: 'MEDITATION', label: t('sermons.filters.meditation') },
         { id: 'BIBLE_STUDY', label: t('sermons.filters.bible_study') },
         { id: 'YOUTH', label: t('sermons.filters.youth') },
         { id: 'CONFERENCE', label: t('sermons.filters.conference') },

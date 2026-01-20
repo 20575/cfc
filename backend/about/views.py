@@ -1,11 +1,15 @@
 from rest_framework import viewsets, permissions
 from .models import InformationSection, Event, GalleryItem, Visionary
 from .serializers import InformationSectionSerializer, EventSerializer, GalleryItemSerializer, VisionarySerializer
+from users.permissions import IsAdminOrReadOnlyPublic
+
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class InformationSectionViewSet(viewsets.ModelViewSet):
     queryset = InformationSection.objects.all()
     serializer_class = InformationSectionSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnlyPublic]
+    parser_classes = (MultiPartParser, FormParser)
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
@@ -56,4 +60,5 @@ class GalleryViewSet(viewsets.ModelViewSet):
 class VisionaryViewSet(viewsets.ModelViewSet):
     queryset = Visionary.objects.filter(is_active=True)
     serializer_class = VisionarySerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnlyPublic]
+    parser_classes = (MultiPartParser, FormParser)

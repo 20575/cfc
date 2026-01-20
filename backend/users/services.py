@@ -24,20 +24,43 @@ class UserService:
         # URL du frontend
         reset_url = f"http://localhost:5173/reset-password/{uid}/{token}"
         
-        subject = "Réinitialisation de votre mot de passe - Cyprus For Christ"
+        # Déterminer la salutation en fonction du rôle
+        greeting = f"Bonjour {user.username},"
+        
+        # On récupère le nom complet si possible
+        full_name = f"{user.last_name} {user.first_name}".strip()
+        if not full_name:
+            full_name = user.username
+
+        if user.role == 'PASTOR':
+            greeting = f"Bonjour Pasteur {full_name},"
+        elif user.role == 'ADMIN':
+            greeting = f"Bonjour Administrateur {user.username},"
+        elif user.role == 'MODERATOR':
+            greeting = f"Bonjour Modérateur {user.username},"
+        else:
+            # Membres et autres
+            greeting = f"Bonjour Frère/Sœur {full_name},"
+
         message = (
-            f"Bonjour {user.username},\n\n"
+            f"{greeting}\n\n"
             f"Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant :\n{reset_url}\n\n"
             "Si vous n'avez pas demandé de réinitialisation, veuillez ignorer cet email."
         )
         
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(f"Erreur lors de l'envoi de l'email à {user.email}: {e}")
+            # On ne relance pas l'erreur pour éviter le crash (500), 
+            # mais on pourrait vouloir notifier l'admin.
+            return False
         return True
 
     @staticmethod

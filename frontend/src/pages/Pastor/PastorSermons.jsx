@@ -56,6 +56,7 @@ const SermonFormModal = ({ sermon, onSave, onClose }) => {
                                 <option value="PREACHING">Prédication</option>
                                 <option value="TEACHING">Enseignement</option>
                                 <option value="EXHORTATION">Exhortation</option>
+                                <option value="MEDITATION">Méditation</option>
                                 <option value="BIBLE_STUDY">Étude Biblique</option>
                                 <option value="YOUTH">Jeunesse</option>
                                 <option value="CONFERENCE">Conférence</option>

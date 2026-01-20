@@ -20,7 +20,15 @@ const ForgotPassword = () => {
             const response = await axios.post('/api/auth/password-reset/', { email });
             setMessage(response.data.message);
         } catch (err) {
-            setError(err.response?.data?.error || "Une erreur s'est produite lors de l'envoi de l'email.");
+            let errorMessage = "Une erreur s'est produite lors de l'envoi de l'email.";
+            if (err.response?.data?.error) {
+                if (typeof err.response.data.error === 'object') {
+                    errorMessage = err.response.data.error.message || JSON.stringify(err.response.data.error);
+                } else {
+                    errorMessage = err.response.data.error;
+                }
+            }
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }

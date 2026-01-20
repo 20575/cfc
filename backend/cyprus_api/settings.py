@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'appointments.apps.AppointmentsConfig',
     'chat',
+    'announcements.apps.AnnouncementsConfig',
+    'lives.apps.LivesConfig',
 ]
 
 MIDDLEWARE = [

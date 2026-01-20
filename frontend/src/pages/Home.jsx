@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaPlay, FaArrowRight, FaPray, FaHandHoldingHeart, FaUsers, FaBible, FaPhone } from 'react-icons/fa'
 import { motion } from 'framer-motion'
@@ -19,6 +19,25 @@ import { useLanguage } from '../context/LanguageContext'
 
 const Home = () => {
     const { t } = useLanguage()
+    const [visionary, setVisionary] = useState(null)
+
+    useEffect(() => {
+        const fetchVisionary = async () => {
+            try {
+                const baseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'
+                const res = await fetch(`${baseUrl}/about/visionaries/`)
+                if (res.ok) {
+                    const data = await res.json()
+                    const items = data.results || data
+                    if (items.length > 0) setVisionary(items[0])
+                }
+            } catch (error) {
+                console.error("Error fetching visionary:", error)
+            }
+        }
+        fetchVisionary()
+    }, [])
+
     return (
         <div className="font-sans antialiased text-gray-900 bg-white selection:bg-compassion-purple selection:text-white">
 
@@ -181,7 +200,7 @@ const Home = () => {
             <section className="flex flex-col md:flex-row min-h-[80vh]">
                 <div className="md:w-1/2 relative min-h-[50vh]">
                     <img
-                        src={visionaryImg}
+                        src={visionary?.photo || visionaryImg}
                         alt="Visionnaire"
                         className="absolute inset-0 w-full h-full object-cover object-top"
                     />
@@ -193,10 +212,10 @@ const Home = () => {
                     transition={{ duration: 0.8 }}
                     className="md:w-1/2 bg-gray-50 flex flex-col justify-center p-12 md:p-16 space-y-6"
                 >
-                    <h2 className="text-sm font-bold tracking-[0.2em] text-compassion-purple uppercase">{t('home.visionary.label')}</h2>
-                    <h3 className="text-4xl font-extrabold text-gray-900">{t('home.visionary.title')}</h3>
-                    <p className="text-gray-600 text-lg leading-relaxed">
-                        {t('home.visionary.desc')}
+                    <h2 className="text-sm font-bold tracking-[0.2em] text-compassion-purple uppercase">{visionary?.title || t('home.visionary.label')}</h2>
+                    <h3 className="text-4xl font-extrabold text-gray-900">{visionary?.name || t('home.visionary.title')}</h3>
+                    <p className="text-gray-600 text-lg leading-relaxed line-clamp-6">
+                        {visionary?.biography || t('home.visionary.desc')}
                     </p>
                     <div className="pt-4">
                         <Link to="/about" className="bg-black text-white px-8 py-4 rounded-full font-bold uppercase text-sm hover:bg-compassion-purple transition-all">

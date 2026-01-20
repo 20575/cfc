@@ -7,6 +7,10 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import AutoUpdater from './components/AutoUpdater';
+import ScrollToTop from './components/ScrollToTop';
+import AnnouncementBanner from './components/common/AnnouncementBanner';
+import LiveBanner from './components/common/LiveBanner';
+
 
 const AppContent = () => {
   const element = useRoutes(routes);
@@ -21,6 +25,9 @@ const AppContent = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
+      <AnnouncementBanner />
+      <LiveBanner />
       {!isProtectedRoute && <Navbar />}
       <main className="flex-grow">
         {element}

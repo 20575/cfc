@@ -12,7 +12,11 @@ import {
     Settings,
     Mail,
     LogOut,
-    Globe
+
+    Globe,
+    Info,
+    Megaphone,
+    Headset
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ProtectedLayout from '../Auth/ProtectedLayout';
@@ -23,6 +27,9 @@ const AdminLayout = () => {
 
     const menuItems = [
         { name: 'Tableau de Bord', path: '/admin', icon: LayoutDashboard, exact: true },
+        { name: 'Annonces', path: '/admin/announcements', icon: Megaphone },
+        { name: 'Direct Vidéo', path: '/admin/live', icon: Video },
+        { name: 'Messages Support', path: '/admin/support', icon: Headset },
         { name: 'Utilisateurs', path: '/admin/users', icon: Users },
         { name: 'Créer un Pasteur', path: '/admin/create-pastor', icon: UserPlus },
         { name: 'Sermons', path: '/admin/sermons', icon: Video },
@@ -31,6 +38,7 @@ const AdminLayout = () => {
         { name: 'Événements', path: '/admin/events', icon: Calendar },
         { name: 'Galerie', path: '/admin/gallery', icon: ImageIcon },
         { name: 'Contact', path: '/admin/contact', icon: Settings },
+        { name: 'À propos', path: '/admin/about', icon: Info }, // Added About Management
         { name: 'Messages', path: '/admin/messages', icon: Mail },
     ];
 

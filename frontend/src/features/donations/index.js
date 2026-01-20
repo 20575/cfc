@@ -1,2 +1,2 @@
 export * from './api';
-export { default as DonationsManagement } from './components/DonationsManagement';
+export { default as DonationsManagement } from './DonationsManagement';

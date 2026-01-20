@@ -7,14 +7,34 @@ import {
     MessageSquare,
     Calendar,
     LogOut,
-    Globe
+    Globe,
+    Headset
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ProtectedLayout from '../Auth/ProtectedLayout';
+import SupportChat from '../../features/chat/components/SupportChat';
 
 const MemberLayout = () => {
     const location = useLocation();
     const { logout } = useAuth();
+    const [supportChat, setSupportChat] = React.useState({
+        isOpen: false,
+        initialMessage: '',
+        donationId: null,
+        unreadCount: 0
+    });
+
+    React.useEffect(() => {
+        if (location.state?.openSupport) {
+            setSupportChat({
+                isOpen: true,
+                initialMessage: location.state.prefilledMessage || '',
+                donationId: location.state.donationId || null
+            });
+            // Clear location state to avoid re-opening on refresh
+            window.history.replaceState({}, document.title);
+        }
+    }, [location]);
 
     const menuItems = [
         { name: 'Mon Dashboard', path: '/member', icon: LayoutDashboard, exact: true },
@@ -22,6 +42,7 @@ const MemberLayout = () => {
         { name: 'Mes Prières', path: '/member/prayers', icon: MessageSquare },
         { name: 'Mes Dons', path: '/member/donations', icon: Heart },
         { name: 'Rendez-vous', path: '/member/appointments', icon: Calendar },
+        { name: 'Direct Vidéo', path: '/member/live', icon: Headset }, // Reuse Headset or Video later
     ];
 
     const isActive = (item) => {
@@ -80,6 +101,32 @@ const MemberLayout = () => {
     return (
         <ProtectedLayout sidebar={sidebar} userRole="MEMBER">
             <Outlet />
+
+            {/* Bouton de discussion flottant si chat fermé */}
+            {!supportChat.isOpen && (
+                <button
+                    onClick={() => setSupportChat({ ...supportChat, isOpen: true })}
+                    className="fixed bottom-6 right-6 bg-bordeaux text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all z-50 flex items-center space-x-2"
+                >
+                    <div className="relative">
+                        <Headset className="w-6 h-6" />
+                        {supportChat.unreadCount > 0 && (
+                            <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce">
+                                {supportChat.unreadCount}
+                            </span>
+                        )}
+                    </div>
+                    <span className="hidden md:inline font-bold">Besoin d'aide ?</span>
+                </button>
+            )}
+
+            <SupportChat
+                isOpen={supportChat.isOpen}
+                onClose={() => setSupportChat({ ...supportChat, isOpen: false })}
+                initialMessage={supportChat.initialMessage}
+                donationId={supportChat.donationId}
+                onUnreadChange={(count) => setSupportChat(prev => ({ ...prev, unreadCount: count }))}
+            />
         </ProtectedLayout>
     );
 };

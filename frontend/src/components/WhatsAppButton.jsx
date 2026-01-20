@@ -2,8 +2,8 @@ import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsAppButton = () => {
-    // TODO: Replace with actual church phone number from backend settings
-    const phoneNumber = '+357XXXXXXXX'; // Cyprus phone number format
+    // Cyprus For Christ WhatsApp Number
+    const phoneNumber = '905338748646';
     const message = 'Bonjour, je viens du site web Cyprus For Christ et j\'aimerais plus d\'informations.';
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

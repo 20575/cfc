@@ -40,17 +40,11 @@ const PrayerRequests = () => {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({
-                    request: data.request, // Changed from title to match backend expectation of 'title' or 'content'?
-                    // Initial check showed backend expects 'title' and 'content'.
-                    // Let's re-verify backend/prayers/serializers.py to be sure.
-                    // The backend model has 'title' and 'content'. The frontend form only has 'request'.
-                    // I should map 'request' to 'content' and maybe provide a default 'title' or add a title field.
-                    // For now, let's map 'request' to 'content' and use a substring for 'title'.
-                    title: data.request.substring(0, 50) + "...",
+                    title: data.request.substring(0, 50) + (data.request.length > 50 ? "..." : ""),
                     content: data.request,
                     is_anonymous: data.isAnonymous,
                     full_name: data.isAnonymous ? '' : data.name,
-                    // Backend handles 'user' via token automatically
+                    email: data.email || '',  // Ajouter l'email
                 }),
             })
 
@@ -149,13 +143,22 @@ const PrayerRequests = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-gray-700 mb-2">Email (optionnel)</label>
+                                    <label className="block text-gray-700 mb-2">Email *</label>
                                     <input
-                                        {...register('email')}
+                                        {...register('email', {
+                                            required: 'L\'adresse email est requise pour recevoir la confirmation',
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: 'Adresse email invalide'
+                                            }
+                                        })}
                                         type="email"
-                                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
+                                        className={`w-full px-4 py-3 border-2 rounded-xl focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20 ${errors.email ? 'border-red-500' : 'border-gray-200'}`}
                                         placeholder="votre@email.com"
                                     />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -232,94 +235,6 @@ const PrayerRequests = () => {
                         </motion.div>
 
                         {/* Recent Prayer Requests - Only visible to Pastors/Admins */}
-                        {(user && (user.role === 'PASTOR' || user.role === 'ADMIN' || user.is_superuser)) ? (
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.1 }}
-                                className="bg-white rounded-2xl shadow-lg overflow-hidden"
-                            >
-                                <div className="bg-gradient-to-r from-bordeaux to-purple-700 p-6 text-white">
-                                    <h3 className="text-xl font-bold">Dernières demandes</h3>
-                                    <p className="opacity-90">Espace réservé aux pasteurs</p>
-                                </div>
-
-                                <AnimatePresence>
-                                    <div className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
-                                        {requests.length === 0 ? (
-                                            <div className="p-6 text-center text-gray-500">
-                                                Aucune demande récente à afficher.
-                                            </div>
-                                        ) : (
-                                            requests.map((request) => {
-                                                const typeInfo = getPrayerTypeInfo(request.type)
-                                                const Icon = typeInfo.icon
-
-                                                return (
-                                                    <motion.div
-                                                        key={request.id}
-                                                        initial={{ opacity: 0, y: 20 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        exit={{ opacity: 0, y: -20 }}
-                                                        className="p-6 hover:bg-gray-50 transition-colors"
-                                                    >
-                                                        <div className="flex items-start space-x-4">
-                                                            <div className={`p-3 rounded-lg bg-gradient-to-r ${typeInfo.color}`}>
-                                                                <Icon className="h-5 w-5 text-white" />
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <p className="text-gray-700 mb-3">{request.request}</p>
-                                                                <div className="flex items-center justify-between text-sm text-gray-500">
-                                                                    <div>
-                                                                        <span>
-                                                                            {request.isAnonymous ? 'Anonyme' : request.name}
-                                                                        </span>
-                                                                        <span className="mx-2">•</span>
-                                                                        <span>
-                                                                            {new Date(request.date).toLocaleDateString('fr-FR')}
-                                                                        </span>
-                                                                    </div>
-                                                                    <button
-                                                                        onClick={() => incrementPrayers(request.id)}
-                                                                        className="flex items-center text-gold hover:text-bordeaux transition-colors"
-                                                                    >
-                                                                        <FaPray className="h-4 w-4 mr-1" />
-                                                                        <span>{request.prayersCount}</span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                )
-                                            })
-                                        )}
-                                    </div>
-                                </AnimatePresence>
-                            </motion.div>
-                        ) : (
-                            // Confidentiality Note for Public Users
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.1 }}
-                                className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-compassion-purple"
-                            >
-                                <div className="flex items-start space-x-4">
-                                    <div className="p-3 bg-purple-100 rounded-full">
-                                        <FaLock className="text-compassion-purple h-6 w-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-800 mb-2">Confidentialité Assurée</h3>
-                                        <p className="text-gray-600 leading-relaxed">
-                                            Afin de respecter votre vie privée, les demandes de prière ne sont visibles que par <strong>l'équipe pastorale et les intercesseurs agréés</strong>.
-                                            <br /><br />
-                                            Soyez assuré(e) que votre requête sera portée dans la prière avec discrétion et amour.
-                                        </p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-
                         {/* Prayer Team Info */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}

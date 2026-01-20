@@ -10,7 +10,9 @@ const BibleAIAssistant = lazy(() => import('./pages/BibleAIAssistant'))
 const Donations = lazy(() => import('./pages/Donations'))
 const Events = lazy(() => import('./pages/Events'))
 const Gallery = lazy(() => import('./pages/Gallery'))
+
 const Contact = lazy(() => import('./pages/Contact'))
+const About = lazy(() => import('./pages/About')) // Added About page
 const Login = lazy(() => import('./pages/Auth/Login'))
 const Register = lazy(() => import('./pages/Auth/Register'))
 const ForgotPassword = lazy(() => import('./pages/Auth/ForgotPassword'))
@@ -47,7 +49,12 @@ const DonationsManagement = lazy(() => import('./features/donations').then(m => 
 const EventsManagement = lazy(() => import('./features/events').then(m => ({ default: m.EventsManagement })));
 const GalleryManagement = lazy(() => import('./features/gallery').then(m => ({ default: m.GalleryManagement })));
 const UsersManagement = lazy(() => import('./features/users').then(m => ({ default: m.UsersManagement })));
+const AboutManagement = lazy(() => import('./features/about/AboutManagement')); // Added
 const PastorCreation = lazy(() => import('./features/users').then(m => ({ default: m.PastorCreation })));
+const AnnouncementsManagement = lazy(() => import('./features/announcements/AnnouncementsManagement'));
+const AdminChat = lazy(() => import('./features/chat/components/AdminChat'));
+const LivePlayer = lazy(() => import('./features/live/components/LivePlayer'));
+const PastorLive = lazy(() => import('./features/live/components/PastorLive'));
 
 const withSuspense = (Component) => (
     <Suspense fallback={<Loader />}>
@@ -63,8 +70,10 @@ const routes = [
     { path: '/prayer-requests', element: withSuspense(PrayerRequests) },
     { path: '/bible-ai', element: withSuspense(BibleAIAssistant) },
     { path: '/donations', element: withSuspense(Donations) },
+
     { path: '/events', element: withSuspense(Events) },
     { path: '/contact', element: withSuspense(Contact) },
+    { path: '/about', element: withSuspense(About) }, // Added About route
     { path: '/login', element: withSuspense(Login) },
     { path: '/register', element: withSuspense(Register) },
     { path: '/forgot-password', element: withSuspense(ForgotPassword) },
@@ -84,6 +93,7 @@ const routes = [
             { path: 'prayers', element: withSuspense(MemberPrayers) },
             { path: 'donations', element: withSuspense(MemberDonations) },
             { path: 'appointments', element: withSuspense(MemberAppointments) },
+            { path: 'live', element: withSuspense(LivePlayer) },
             { path: 'legacy', element: withSuspense(MemberDashboard) },
         ]
     },
@@ -114,6 +124,7 @@ const routes = [
             { path: 'rhema', element: withSuspense(PastorRhema) },
             { path: 'availabilities', element: withSuspense(PastorAvailability) },
             { path: 'appointments', element: withSuspense(PastorAppointments) },
+            { path: 'live', element: withSuspense(PastorLive) },
             { path: 'legacy', element: withSuspense(PastorDashboard) },
         ]
     },
@@ -138,6 +149,9 @@ const routes = [
         ),
         children: [
             { index: true, element: withSuspense(AdminDashboard) },
+            { path: 'announcements', element: withSuspense(AnnouncementsManagement) },
+            { path: 'support', element: withSuspense(AdminChat) },
+            { path: 'live', element: withSuspense(LivePlayer) },
             { path: 'users', element: withSuspense(UsersManagement) },
             { path: 'create-pastor', element: withSuspense(PastorCreation) },
             { path: 'sermons', element: withSuspense(SermonsManagement) },
@@ -146,6 +160,7 @@ const routes = [
             { path: 'events', element: withSuspense(EventsManagement) },
             { path: 'gallery', element: withSuspense(GalleryManagement) },
             { path: 'contact', element: withSuspense(ContactManagement) },
+            { path: 'about', element: withSuspense(AboutManagement) }, // Added
             { path: 'messages', element: withSuspense(MessagesManagement) },
         ]
     }

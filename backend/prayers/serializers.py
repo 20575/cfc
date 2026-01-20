@@ -10,7 +10,7 @@ class PrayerRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = PrayerRequest
         fields = (
-            'id', 'user', 'full_name', 'title', 'content', 'description',
+            'id', 'user', 'full_name', 'email', 'title', 'content', 'description',
             'status', 'status_display', 'is_anonymous', 'created_at'
         )
         read_only_fields = ('user', 'created_at')

@@ -75,3 +75,15 @@ class ReadOnlyOrPastorAdmin(permissions.BasePermission):
         
         # Écriture seulement pour pasteur et admin
         return request.user.role in ['PASTOR', 'ADMIN'] or request.user.is_superuser
+
+class IsAdminOrReadOnlyPublic(permissions.BasePermission):
+    """
+    Lecture pour tout le monde (public).
+    Écriture pour Admin uniquement.
+    """
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_authenticated and (
+            request.user.role == 'ADMIN' or request.user.is_superuser
+        )

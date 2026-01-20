@@ -9,14 +9,21 @@ import {
     Calendar,
     LayoutDashboard,
     LogOut,
-    Globe
+    Globe,
+    Headset,
+    Video
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ProtectedLayout from '../Auth/ProtectedLayout';
+import SupportChat from '../../features/chat/components/SupportChat';
 
 const PastorLayout = () => {
     const location = useLocation();
     const { logout } = useAuth();
+    const [supportChat, setSupportChat] = React.useState({
+        isOpen: false,
+        unreadCount: 0
+    });
 
     const menuItems = [
         { name: 'Dashboard', path: '/pastor', icon: LayoutDashboard, exact: true },
@@ -26,6 +33,8 @@ const PastorLayout = () => {
         { name: 'Rhema', path: '/pastor/rhema', icon: FileText },
         { name: 'Disponibilités', path: '/pastor/availabilities', icon: Clock },
         { name: 'Rendez-vous', path: '/pastor/appointments', icon: Calendar },
+        { name: 'Gestion du Live', path: '/pastor/live', icon: Video },
+        { name: 'Support Admin', path: '#', icon: Headset, onClick: () => setSupportChat({ ...supportChat, isOpen: true }) },
     ];
 
     const isActive = (item) => {
@@ -47,17 +56,33 @@ const PastorLayout = () => {
                     const active = isActive(item);
 
                     return (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${active
-                                ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm'
-                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700'
-                                }`}
-                        >
-                            <Icon className={`w-5 h-5 ${active ? 'text-indigo-600 dark:text-indigo-400' : ''}`} />
-                            <span>{item.name}</span>
-                        </Link>
+                        <div key={item.path} className="w-full">
+                            {item.onClick ? (
+                                <button
+                                    onClick={item.onClick}
+                                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700"
+                                >
+                                    <Icon className="w-5 h-5" />
+                                    <span className="flex-1">{item.name}</span>
+                                    {item.name === 'Support Admin' && supportChat.unreadCount > 0 && (
+                                        <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-auto">
+                                            {supportChat.unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+                            ) : (
+                                <Link
+                                    to={item.path}
+                                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${active
+                                        ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm'
+                                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700'
+                                        }`}
+                                >
+                                    <Icon className={`w-5 h-5 ${active ? 'text-indigo-600 dark:text-indigo-400' : ''}`} />
+                                    <span>{item.name}</span>
+                                </Link>
+                            )}
+                        </div>
                     );
                 })}
             </nav>
@@ -84,6 +109,30 @@ const PastorLayout = () => {
     return (
         <ProtectedLayout sidebar={sidebar} userRole="PASTOR">
             <Outlet />
+
+            {/* Bouton de discussion flottant si chat fermé */}
+            {!supportChat.isOpen && (
+                <button
+                    onClick={() => setSupportChat({ ...supportChat, isOpen: true })}
+                    className="fixed bottom-6 right-6 bg-bordeaux text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all z-50 flex items-center space-x-2"
+                >
+                    <div className="relative">
+                        <Headset className="w-6 h-6" />
+                        {supportChat.unreadCount > 0 && (
+                            <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce">
+                                {supportChat.unreadCount}
+                            </span>
+                        )}
+                    </div>
+                    <span className="hidden md:inline font-bold">Support Admin</span>
+                </button>
+            )}
+
+            <SupportChat
+                isOpen={supportChat.isOpen}
+                onClose={() => setSupportChat({ ...supportChat, isOpen: false })}
+                onUnreadChange={(count) => setSupportChat(prev => ({ ...prev, unreadCount: count }))}
+            />
         </ProtectedLayout>
     );
 };

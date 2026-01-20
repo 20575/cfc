@@ -21,6 +21,7 @@ class Sermon(models.TitleChoices if False else models.Model): # Placeholder for 
         PREACHING = 'PREACHING', _('Prédication')
         TEACHING = 'TEACHING', _('Enseignement')
         EXHORTATION = 'EXHORTATION', _('Exhortation')
+        MEDITATION = 'MEDITATION', _('Méditation')
         BIBLE_STUDY = 'BIBLE_STUDY', _('Étude Biblique')
         YOUTH = 'YOUTH', _('Jeunesse')
         CONFERENCE = 'CONFERENCE', _('Conférence')
